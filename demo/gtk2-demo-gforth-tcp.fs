@@ -19,6 +19,10 @@ create buf 256 allot
     buf 1+ 255 handle read-line abort" GTK read error" drop
     buf c! ;
 
+\ without waiting for an answer
+: }gtk0 ( -- , finish output to gtk-server, receive response)
+    cr stdout to outfile-id ;
+
 : gtkres ( -- x, evaluate gtk-server response )
     buf count evaluate ;
 
@@ -61,9 +65,7 @@ create buf 256 allot
 
 \ Exit GTK without waiting for an answer
 : gtkexit ( -- , disconnect from gtk-server )
-    handle to outfile-id
-    ." gtk_exit 0" cr
-    stdout to outfile-id ;
+    gtk{ ." gtk_exit 0" cr }gtk0 ;
 
 init
 window" title" constant win
@@ -78,5 +80,3 @@ button" nothing" constant but0
 lab show  but0 show  but show  tab show  win show
 : run  begin  iteration check but =  until  gtkexit  bye ;
 run
-
-
