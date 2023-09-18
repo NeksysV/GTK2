@@ -80,3 +80,4 @@ button" nothing" constant but0
 lab show  but0 show  but show  tab show  win show
 : run  begin  iteration check but =  until  gtkexit  bye ;
 run
+
